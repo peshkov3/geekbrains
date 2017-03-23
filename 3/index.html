@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homework 2. Peshkov Maxim.</title>
+</head>
+<body>
+<script>
+
+    function getRandomArbitrary( min, max ) {
+        return Math.round( Math.random() * (max - min) + min );
+    }
+
+    function getNumbersForGame() {
+
+        let fourNumbers = [];
+
+        do {
+            if ( ! fourNumbers.length ) {
+                fourNumbers.push( getRandomArbitrary( 0, 9 ) );
+                continue;
+            }
+
+            let number = getRandomArbitrary( 0, 9 );
+
+            fourNumbers.indexOf( number ) == -1 && fourNumbers.push( number )
+
+        } while (fourNumbers.length !== 4);
+
+        return fourNumbers;
+    }
+
+    function playGame() {
+
+        let secretNumbers = getNumbersForGame();
+        var text = 'Введите четырехзначное число';
+
+        while (true) {
+
+            var result = prompt( text );
+
+            if ( result.length !== 4 ) {
+                alert( 'Веденное вами число не четырехзначное!!! ' + result.length );
+                text = 'Введите четырехзначное число';
+                continue;
+            }
+
+            let internalArray = [];
+
+            result.split( '' ).forEach( function( element ) {
+                internalArray.push( parseInt( element ) );
+            } );
+
+            let bullNumber = 0;
+            let cowNumber  = 0;
+
+            internalArray.forEach( function( element, index ) {
+
+                const indexInSecretNumbers = secretNumbers.indexOf( element );
+
+                // формируем коров
+                indexInSecretNumbers != -1 && cowNumber++;
+
+                // формируем быков
+                indexInSecretNumbers === index && bullNumber++;
+            } );
+
+            let message = '';
+
+            ( cowNumber !== 0 ) && (message = cowNumber + ' коров ');
+            ( bullNumber !== 0 ) && (message += bullNumber + ' быков');
+            ( bullNumber === 4 ) && (message = 'Вы отгадали!! Загаданное компьютером число = ' + secretNumbers.join( '' ))
+
+            alert( message + ' вы ввели ' + result);
+
+            if ( bullNumber === 4 ) {
+                break;
+            }
+        }
+    }
+
+    // Бесконечно играть в игру
+    while (true) {
+        playGame()
+    }
+
+</script>
+
+</body>
+</html>

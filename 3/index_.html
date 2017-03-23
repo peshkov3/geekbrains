@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homework 2. Peshkov Maxim.</title>
+</head>
+<body>
+
+<script>
+    // 1
+    function isPrime( n ) {
+        if ( n < 2 ) return false;
+
+        /**
+         * An integer is prime if it is not divisible by any prime less than or equal to its square root
+         **/
+
+        var q = Math.floor( Math.sqrt( n ) );
+
+        for (var i = 2; i <= q; i++) {
+            if ( n % i == 0 ) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    let counter = 0;
+    while (counter <= 100) {
+        (isPrime( ++counter )) && console.log( counter );
+    }
+
+    // 2
+    counter = 0;
+    do {
+        if (counter === 0) {
+            console.log( (counter++) + ' - это нол' );
+            continue
+        }
+
+        let result = counter % 2;
+
+        switch (result) {
+            case 1:
+                console.log( (counter++) + ' - нечетное число' );
+                break;
+            case 0:
+                console.log( (counter++) + ' - четное число' );
+                break;
+        }
+
+    } while (counter <= 100);
+
+    // 3
+    for(var i=0; i<10;  console.log(i), i++){}
+
+    // 4
+    for(var j=0; j<=20;  j++ ){
+        console.log(new Array(j).fill('*', 0, j).join(''))
+    }
+
+</script>
+</body>
+</html>

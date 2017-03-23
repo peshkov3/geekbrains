@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homework 2. Peshkov Maxim.</title>
+</head>
+<body>
+<script>
+
+    function getRandomArbitrary( min, max ) {
+        return Math.round(Math.random() * (max - min) + min);
+    }
+
+    var infiniteGame = true;
+
+    while ( infiniteGame ) {
+
+        var randomNumber = getRandomArbitrary( 1, 9999 );
+
+        var attempt = false;
+        var text    = 'Введите предполагаемое число';
+
+        while ( ! attempt ) {
+
+            var result = +(prompt( text ));
+
+            if ( result < randomNumber ) {
+                text    = 'Веденное Вами число Менее загаданного компьютером числа';
+            } else if ( result > randomNumber ) {
+                text    = 'Веденное Вами число Более загаданного компьютером числа';
+            } else if ( result == randomNumber ) {
+                attempt = true;
+                alert( 'Вы отгадали!!! Загаданное число: ' + result );
+            }
+        }
+    }
+
+</script>
+</body>
+</html>
