@@ -1,3 +1,3 @@
-# geekbrains
+# Geekbrains
 
-## Homeworks for the JS geekbrains's cources
+Homeworks for the JS Geekbrains's cources
