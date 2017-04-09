@@ -1,0 +1,6 @@
+a. undefined
+b. undefined || Error
+c. undefined
+d. function
+e. 10
+f. null
