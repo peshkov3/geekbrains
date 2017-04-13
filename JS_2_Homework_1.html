@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        :root {
+            --board-size: 40px;
+            --board-color: #7495ff;
+        }
+
+        .board {
+            float: left;
+            background-color: white;
+        }
+
+        .row {
+
+            width: auto;
+        }
+
+        .filled {
+            width: var(--board-size);
+            height: var(--board-size);
+            float: left;
+            background-color: var(--board-color);
+        }
+
+        .empty {
+            width: var(--board-size);
+            height: var(--board-size);
+            float: left;
+            background-color: white;
+        }
+
+        .block {
+            width: var(--board-size);
+            height: var(--board-size);
+            float: left;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+    </style>
+</head>
+<body id="body">
+<!--<div id="board" class="board"></div>-->
+<script>
+
+
+
+    var Element = function (description, content, cssClass) {
+        this.type = 'div';
+        this.cssClass = cssClass || '';
+        this.content = content || '';
+        this.description = description || 'Dom Element';
+        var children = [];
+        this.addChild = function (_description, _content, _cssClass) {
+            var newChild = new Element(_description, _content, _cssClass);
+            children.push(newChild);
+            return newChild;
+        };
+
+        var _element;
+        this.attachListener = function (type, callback) {
+            _element.addEventListener(type, callback)
+        };
+        this.getChildren = function () {
+            return children
+        };
+        this.getAsDomElement = function () {
+
+            _element = document.createElement(this.type);
+
+            (this.cssClass) && (_element.classList.add(this.cssClass));
+            (this.content) && (_element.innerText = this.content);
+
+            if (children.length) {
+                children.forEach(function(_el){
+                    _element.appendChild( _el.getAsDomElement())
+                })
+            }
+
+            return _element;
+        }
+    };
+
+
+    var Board = function (description, content, cssClass) {
+        Element.apply(this, arguments);
+        var chars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        var numbers = [1, 2, 3, 4, 5, 6, 7, 8];
+        var _element = null;
+        function isOdd(num) { return num % 2;}
+
+        /**
+         * Render tree
+         *
+         * @param {string} whereToRender - Where to paste given element ID attribute
+         * @constructor
+         */
+        this.render = function (whereToRender) {
+
+            if (!whereToRender) {
+                throw Error('Id is empty', whereToRender);
+            }
+
+            _element= document.getElementById(whereToRender);
+
+            if (!_element) {
+                throw Error('Element with id: ' + whereToRender + ' not found');
+            }
+
+            _element.appendChild(this.getAsDomElement());
+        };
+
+        var firstRow = this.addChild('First Board row', '', 'row');
+
+        // добавить первый пустой блок
+        firstRow.addChild('Empty block', '-', 'block');
+
+        // заполнение буквами
+        chars.forEach(function (element) {
+            firstRow.addChild('A char', element, 'block');
+        });
+
+        // гунерация сетки
+        var element = this;
+        chars.forEach(function (c_element, c_number) {
+
+            var row = element.addChild('Number of the row', null, 'row' );
+            row.addChild('A number', ++c_number, 'block');
+
+            numbers.forEach(function (n_element, n_number) {
+                var colType = isOdd(n_number + c_number);
+
+                var cell = row.addChild('A cell', '', colType ? 'filled' : 'empty');
+            });
+        });
+
+        return this;
+    };
+
+    var board = (new Board('Our board', '', 'board'));
+    board.render('body');
+    (board.getChildren()).forEach(function(element){
+        element.attachListener('click', function(){
+            alert('Hello click!');
+        })
+    })
+
+
+</script>
+</body>
+</html>
